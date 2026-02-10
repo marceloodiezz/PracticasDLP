@@ -1,4 +1,4 @@
-package main.java.type;
+package main.type;
 
 public class VoidType implements Type {
 

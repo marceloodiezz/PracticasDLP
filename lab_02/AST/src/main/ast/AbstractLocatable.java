@@ -1,4 +1,4 @@
-package main.java.ast;
+package main.ast;
 
 public abstract class AbstractLocatable implements Locatable {
 

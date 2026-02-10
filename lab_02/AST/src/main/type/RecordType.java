@@ -1,4 +1,4 @@
-package main.java.type;
+package main.type;
 
 import java.util.List;
 

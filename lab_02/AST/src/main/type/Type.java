@@ -1,4 +1,5 @@
-package main.java.type;
+package main.type;
 
 public interface Type {
+
 }
