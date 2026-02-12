@@ -2,7 +2,7 @@ package main.type;
 
 import java.util.List;
 
-public class RecordType {
+public class RecordType implements Type {
 
     private final List<RecordField> fields;
 
