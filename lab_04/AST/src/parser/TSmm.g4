@@ -1,7 +1,75 @@
 grammar TSmm;	
 
-program: 
+// -----------------------------------
+// ANALISIS SINTÁCTICO
+
+program: definition* definitionMain EOF
        ;
+
+definition: variableDefinition
+          | functionDefinition
+          ;
+
+variableDefinition: 'let' ID (',' ID)* ':' type ';'
+                  ;
+
+functionDefinition: 'function' ID '(' params? ')' ':' (type | 'void') functionBody
+                  ;
+
+params: ID ':' type (',' ID ':' type)*
+      ;
+
+functionBody: '{' variableDefinition* statement* '}'
+            ;
+
+definitionMain: 'function' 'main' '(' ')' ':' 'void' functionBody
+              ;
+
+simple_type: 'int'
+           | 'number'
+           | 'char'
+           ;
+
+type: simple_type
+    | '[' INT_CONSTANT ']' type     // ArrayType
+    | '[' record_field+ ']'         // RecordType
+    ;
+
+record_field: 'let' ID ':' type ';'
+            ;
+
+statement: 'log' expression (',' expression)* ';'           // Log
+         | 'input' expression (',' expression)* ';'         // Input
+         | ID '(' (expression (',' expression)*)? ')' ';'   // FuncCall
+         | expression '=' expression ';'                    // Assignment
+         | 'if' '(' expression ')' block ('else' block)?    // If-Else
+         | 'while' '(' expression ')' block                 // While
+         | 'return' expression ';'                          // Return
+         ;
+
+block: statement
+    | '{' statement+ '}'
+    ;
+
+expression: '(' expression ')'                              // Paréntesis
+          | ID '(' (expression (',' expression)*)? ')'      // FuncCall
+          | expression '[' expression ']'                   // ArrayAccess
+          | expression '.' ID                               // FieldAccess
+          | '(' expression 'as' simple_type ')'             // Cast
+          | '-' expression                                  // UnaryMinus
+          | '!' expression                                  // UnaryNot
+          | expression ('*' | '/' | '%') expression         // Arithmetic BinaryOp
+          | expression ('+' | '-') expression               // Arithmetic BinaryOp
+          | expression ('>' | '>=' | '<' | '<=' | '!=' | '==') expression   // Comparison BinaryOp
+          | expression ('&&' | '||') expression             // Logic BinaryOp
+          | INT_CONSTANT                                    // IntLiteral
+          | REAL_CONSTANT                                   // RealLiteral
+          | CHAR_CONSTANT                                   // CharLiteral
+          | ID                                              // Variable
+          ;
+
+// -----------------------------------
+// ANALISIS LÉXICO
 
 fragment
 DIGIT: [0-9];
