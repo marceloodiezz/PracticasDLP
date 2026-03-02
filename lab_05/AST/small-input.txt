@@ -18,7 +18,7 @@ function f(n: int,r: number): int {
 let d: number;
 
 // Main function definition
-function main(): void{
+function ast(): void{
 	// Record
   	let pair: [
     	let integer: int;
