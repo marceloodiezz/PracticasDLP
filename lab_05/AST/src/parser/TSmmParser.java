@@ -352,7 +352,6 @@ public class TSmmParser extends Parser {
 		public FuncDef ast;
 		public List<VarDef> prms = new ArrayList<>();
 		public Type returnType;
-		public Token f;
 		public Token name;
 		public ParamsContext p;
 		public Simple_typeContext st;
@@ -381,7 +380,7 @@ public class TSmmParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(66);
-			((FunctionDefinitionContext)_localctx).f = match(T__4);
+			match(T__4);
 			setState(67);
 			((FunctionDefinitionContext)_localctx).name = match(ID);
 			setState(68);
@@ -430,8 +429,8 @@ public class TSmmParser extends Parser {
 			                          ((FunctionDefinitionContext)_localctx).ast =  new FuncDef(((FunctionDefinitionContext)_localctx).name.getText(),
 			                                             fType,
 			                                             ((FunctionDefinitionContext)_localctx).b1.ast,
-			                                             ((FunctionDefinitionContext)_localctx).f.getLine(),
-			                                             ((FunctionDefinitionContext)_localctx).f.getCharPositionInLine()+1);
+			                                             ((FunctionDefinitionContext)_localctx).name.getLine(),
+			                                             ((FunctionDefinitionContext)_localctx).name.getCharPositionInLine()+1);
 			                      
 			}
 		}
@@ -609,7 +608,6 @@ public class TSmmParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class DefinitionMainContext extends ParserRuleContext {
 		public FuncDef ast;
-		public Token f;
 		public Token name;
 		public FunctionBodyContext b1;
 		public FunctionBodyContext functionBody() {
@@ -628,7 +626,7 @@ public class TSmmParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(121);
-			((DefinitionMainContext)_localctx).f = match(T__4);
+			match(T__4);
 			setState(122);
 			((DefinitionMainContext)_localctx).name = match(T__10);
 			setState(123);
@@ -647,8 +645,8 @@ public class TSmmParser extends Parser {
 			                      ((DefinitionMainContext)_localctx).ast =  new FuncDef(((DefinitionMainContext)_localctx).name.getText(),
 			                                         fType,
 			                                         ((DefinitionMainContext)_localctx).b1.ast,
-			                                         ((DefinitionMainContext)_localctx).f.getLine(),
-			                                         ((DefinitionMainContext)_localctx).f.getCharPositionInLine()+1);
+			                                         ((DefinitionMainContext)_localctx).name.getLine(),
+			                                         ((DefinitionMainContext)_localctx).name.getCharPositionInLine()+1);
 			                  
 			}
 		}

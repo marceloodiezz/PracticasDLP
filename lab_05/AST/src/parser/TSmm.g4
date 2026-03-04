@@ -46,7 +46,7 @@ variables returns [List<Variable> ast = new ArrayList<>()] :
          ;
 
 functionDefinition returns [FuncDef ast] locals [List<VarDef> prms = new ArrayList<>(), Type returnType] :
-                  f='function'
+                  'function'
                   name=ID
                   '(' (p=params { $prms = $p.ast; } )? ')' ':'
                   (
@@ -59,8 +59,8 @@ functionDefinition returns [FuncDef ast] locals [List<VarDef> prms = new ArrayLi
                           $ast = new FuncDef($name.getText(),
                                              fType,
                                              $b1.ast,
-                                             $f.getLine(),
-                                             $f.getCharPositionInLine()+1);
+                                             $name.getLine(),
+                                             $name.getCharPositionInLine()+1);
                       }
                   ;
 
@@ -91,15 +91,15 @@ functionBody returns [List<Statement> ast = new ArrayList<>()] locals [List<VarD
             ;
 
 definitionMain returns [FuncDef ast]:
-              f='function' name='ast' '(' ')' ':' 'void' b1=functionBody
+              'function' name='ast' '(' ')' ':' 'void' b1=functionBody
                   {
                       List<VarDef> params = new ArrayList<>();
                       Type fType = new FuncType(VoidType.getInstance(), params);
                       $ast = new FuncDef($name.getText(),
                                          fType,
                                          $b1.ast,
-                                         $f.getLine(),
-                                         $f.getCharPositionInLine()+1);
+                                         $name.getLine(),
+                                         $name.getCharPositionInLine()+1);
                   }
               ;
 
