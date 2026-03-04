@@ -22,7 +22,7 @@ El cuerpo de la funcion va entre "{" y "}".
 El cuerpo de las funciones se compone de una secuencia de cero 
 o m�s definiciones de variables seguida de una secuencia de cero 
 o m�s sentencias.
-La funcion "ast" es obligatoria, no devuelve nada, no recibe par�metros y
+La funcion "main" es obligatoria, no devuelve nada, no recibe par�metros y
 debe estar declarada en �ltimo lugar.
 
 TIPOS

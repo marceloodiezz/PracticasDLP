@@ -91,7 +91,7 @@ functionBody returns [List<Statement> ast = new ArrayList<>()] locals [List<VarD
             ;
 
 definitionMain returns [FuncDef ast]:
-              'function' name='ast' '(' ')' ':' 'void' b1=functionBody
+              'function' name='main' '(' ')' ':' 'void' b1=functionBody
                   {
                       List<VarDef> params = new ArrayList<>();
                       Type fType = new FuncType(VoidType.getInstance(), params);

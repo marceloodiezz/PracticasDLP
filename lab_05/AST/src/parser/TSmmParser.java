@@ -49,10 +49,10 @@ public class TSmmParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'let'", "':'", "';'", "','", "'function'", "'('", "')'", "'void'", 
-			"'{'", "'}'", "'ast'", "'int'", "'number'", "'char'", "'['", "']'", "'log'", 
-			"'input'", "'='", "'if'", "'else'", "'while'", "'return'", "'.'", "'as'", 
-			"'-'", "'!'", "'*'", "'/'", "'%'", "'+'", "'>'", "'>='", "'<'", "'<='", 
-			"'!='", "'=='", "'&&'", "'||'"
+			"'{'", "'}'", "'main'", "'int'", "'number'", "'char'", "'['", "']'", 
+			"'log'", "'input'", "'='", "'if'", "'else'", "'while'", "'return'", "'.'", 
+			"'as'", "'-'", "'!'", "'*'", "'/'", "'%'", "'+'", "'>'", "'>='", "'<'", 
+			"'<='", "'!='", "'=='", "'&&'", "'||'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
