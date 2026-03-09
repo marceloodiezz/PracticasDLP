@@ -4,7 +4,7 @@ import parser.*;
 
 import org.antlr.v4.runtime.*;
 
-import ast.Program;
+import ast.program.Program;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorView;
 

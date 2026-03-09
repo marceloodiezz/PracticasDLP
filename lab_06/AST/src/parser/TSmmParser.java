@@ -1,4 +1,4 @@
-// Generated from /Users/marcelo/Desktop/PracticasDLP/lab_05/AST/src/parser/TSmm.g4 by ANTLR 4.13.2
+// Generated from /Users/marcelo/Desktop/PracticasDLP/lab_06/AST/src/parser/TSmm.g4 by ANTLR 4.13.2
 package parser;
 
     import ast.*;
@@ -7,6 +7,7 @@ package parser;
     import ast.program.*;
     import ast.statement.*;
     import ast.type.*;
+    import errorhandler.*;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -723,7 +724,7 @@ public class TSmmParser extends Parser {
 		public Simple_typeContext st;
 		public Token INT_CONSTANT;
 		public TypeContext t;
-		public Record_fieldContext rF;
+		public Record_fieldContext rFs;
 		public Simple_typeContext simple_type() {
 			return getRuleContext(Simple_typeContext.class,0);
 		}
@@ -786,8 +787,26 @@ public class TSmmParser extends Parser {
 					{
 					{
 					setState(148);
-					((TypeContext)_localctx).rF = record_field();
-					 _localctx.recordFields.addAll(((TypeContext)_localctx).rF.ast); 
+					((TypeContext)_localctx).rFs = record_field();
+
+					                for (RecordField field : ((TypeContext)_localctx).rFs.ast) {
+					                    boolean duplicado = false;
+
+					                    for (RecordField existingField : _localctx.recordFields) {
+					                        if (existingField.getName().equals(field.getName())) {
+					                            duplicado = true;
+					                            break;
+					                        }
+					                    }
+
+					                    if(duplicado) {
+					                        ErrorType e = new ErrorType("RecordField: El campo '" + field.getName() + "' ya ha sido declarado.", field);
+					                    }
+					                    else {
+					                        _localctx.recordFields.add(field);
+					                    }
+					                }
+					            
 					}
 					}
 					setState(153); 
@@ -847,7 +866,7 @@ public class TSmmParser extends Parser {
 			match(T__2);
 
 			                    for(Variable v : ((Record_fieldContext)_localctx).vs.ast) {
-			                        RecordField rF = new RecordField(v.getName(), ((Record_fieldContext)_localctx).t.ast);
+			                        RecordField rF = new RecordField(v.getName(), ((Record_fieldContext)_localctx).t.ast, v.getLine(), v.getColumn());
 			                        _localctx.ast.add(rF);
 			                    }
 			                

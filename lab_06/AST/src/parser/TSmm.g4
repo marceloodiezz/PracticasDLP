@@ -7,6 +7,7 @@ grammar TSmm;
     import ast.program.*;
     import ast.statement.*;
     import ast.type.*;
+    import errorhandler.*;
 }
 
 // -----------------------------------
@@ -121,7 +122,27 @@ type returns [Type ast] locals [List<RecordField> recordFields = new ArrayList<>
         { $ast = new ArrayType(LexerHelper.lexemeToInt($INT_CONSTANT.getText()),
                                $t.ast); }
     // RecordType
-    | '[' (rF=record_field { $recordFields.addAll($rF.ast); })+ ']'
+    | '[' (rFs=record_field
+            {
+                for (RecordField field : $rFs.ast) {
+                    boolean duplicado = false;
+
+                    for (RecordField existingField : $recordFields) {
+                        if (existingField.getName().equals(field.getName())) {
+                            duplicado = true;
+                            break;
+                        }
+                    }
+
+                    if(duplicado) {
+                        ErrorType e = new ErrorType("RecordField: El campo '" + field.getName() + "' ya ha sido declarado.", field);
+                    }
+                    else {
+                        $recordFields.add(field);
+                    }
+                }
+            }
+       )+']'
             { $ast = new RecordType($recordFields); }
     ;
 
@@ -130,7 +151,7 @@ record_field returns [List<RecordField> ast = new ArrayList<>()] :
             'let' vs=variables ':' t=type ';'
                 {
                     for(Variable v : $vs.ast) {
-                        RecordField rF = new RecordField(v.getName(), $t.ast);
+                        RecordField rF = new RecordField(v.getName(), $t.ast, v.getLine(), v.getColumn());
                         $ast.add(rF);
                     }
                 }

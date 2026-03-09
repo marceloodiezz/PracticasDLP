@@ -1,4 +1,4 @@
-// Generated from /Users/marcelo/Desktop/PracticasDLP/lab_05/AST/src/parser/TSmm.g4 by ANTLR 4.13.2
+// Generated from /Users/marcelo/Desktop/PracticasDLP/lab_06/AST/src/parser/TSmm.g4 by ANTLR 4.13.2
 package parser;
 
     import ast.*;
@@ -7,6 +7,7 @@ package parser;
     import ast.program.*;
     import ast.statement.*;
     import ast.type.*;
+    import errorhandler.*;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
