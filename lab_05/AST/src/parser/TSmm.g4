@@ -121,15 +121,19 @@ type returns [Type ast] locals [List<RecordField> recordFields = new ArrayList<>
         { $ast = new ArrayType(LexerHelper.lexemeToInt($INT_CONSTANT.getText()),
                                $t.ast); }
     // RecordType
-    | '[' (rF=record_field { $recordFields.add($rF.ast); })+ ']'
-        { $ast = new RecordType($recordFields); }
+    | '[' (rF=record_field { $recordFields.addAll($rF.ast); })+ ']'
+            { $ast = new RecordType($recordFields); }
     ;
 
-record_field returns [RecordField ast] :
+record_field returns [List<RecordField> ast = new ArrayList<>()] :
             // RecordField
-            'let' ID ':' t=type ';'
-                { $ast = new RecordField($ID.getText(),
-                                         $t.ast); }
+            'let' vs=variables ':' t=type ';'
+                {
+                    for(Variable v : $vs.ast) {
+                        RecordField rF = new RecordField(v.getName(), $t.ast);
+                        $ast.add(rF);
+                    }
+                }
             ;
 
 statement returns [List<Statement> ast = new ArrayList<>()] locals [List<Expression> args = new ArrayList<>(),
@@ -303,7 +307,7 @@ COMMENTS: ('//' ~[\r\n]*
 REAL_CONSTANT: (INT_CONSTANT* '.' DIGIT*) EXP?
              | INT_CONSTANT EXP
              ;
-  		 
+
 INT_CONSTANT: [1-9] DIGIT*
             | '0'
             ;
@@ -314,4 +318,3 @@ CHAR_CONSTANT: '\'' (ESCAPED_CHAR | ~['\\\r\n]) '\''
 ID: LETTER (LETTER | DIGIT | '_')*
   | '_' (LETTER | DIGIT | '_')*
   ;
-
