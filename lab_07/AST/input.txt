@@ -1,0 +1,15 @@
+function f(e:int): number {
+  return e;
+}
+
+// Main program
+function main(): void {
+  let i,a,j:int;
+  let v:[10]number;
+  
+  a = 0;
+  i = 0;
+  j = -i*a-2;  
+  v[(v[j] as int)] = a;
+  log 'f', '(', 'i', ')', '=' ,f(i);
+}
