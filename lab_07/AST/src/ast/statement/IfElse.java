@@ -2,6 +2,7 @@ package ast.statement;
 
 import ast.AbstractLocatable;
 import ast.expression.Expression;
+import visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,4 +31,10 @@ public class IfElse extends AbstractLocatable implements Statement {
     public List<Statement> getElse_body() {
         return this.else_body;
     }
+
+    @Override
+    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+        return v.visit(this, param);
+    }
+
 }

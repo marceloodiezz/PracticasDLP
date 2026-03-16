@@ -1,6 +1,7 @@
 package ast.type;
 
 import ast.AbstractLocatable;
+import visitor.Visitor;
 
 public class RecordField extends AbstractLocatable {
 
@@ -19,6 +20,11 @@ public class RecordField extends AbstractLocatable {
 
     public Type getTargetType() {
         return this.targetType;
+    }
+
+    @Override
+    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+        return v.visit(this, param);
     }
 
 }

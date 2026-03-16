@@ -5,6 +5,7 @@ import ast.ASTNode;
 import errorhandler.ErrorHandler;
 import parser.TSmmLexer;
 import parser.TSmmParser;
+import semantic.LValueVisitor;
 import semantic.TypeCheckingVisitor;
 import visitor.Visitor;
 
@@ -25,8 +26,9 @@ public class Main {
 		TSmmParser parser = new TSmmParser(tokens);
 		ASTNode ast = parser.program().ast;
 
-		Visitor lValueVisitor = null; //TODO: instanciate a new LValueVisitor
-		lValueVisitor.visit(ast);	  //Incorrect use of the Visitor pattern, Fix it!
+		Visitor<Void, Void> lValueVisitor = new LValueVisitor(); //TODO: instanciate a new LValueVisitor
+		//lValueVisitor.visit(ast);	  //Incorrect use of the Visitor pattern, Fix it!
+		ast.accept(lValueVisitor, null);
 
 		// * Check errors
 		if(ErrorHandler.getInstance().anyError()){

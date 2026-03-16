@@ -1,22 +1,18 @@
 // Generated from /Users/marcelo/Desktop/PracticasDLP/lab_06/AST/src/parser/TSmm.g4 by ANTLR 4.13.2
 package parser;
 
-    import ast.*;
     import ast.definition.*;
     import ast.expression.*;
     import ast.program.*;
     import ast.statement.*;
     import ast.type.*;
-    import errorhandler.*;
 
-import org.antlr.v4.runtime.atn.*;
+    import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
-import org.antlr.v4.runtime.tree.*;
+    import org.antlr.v4.runtime.tree.*;
 import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
+    import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
 public class TSmmParser extends Parser {

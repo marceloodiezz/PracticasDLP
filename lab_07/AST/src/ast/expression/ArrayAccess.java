@@ -1,8 +1,9 @@
 package ast.expression;
 
 import ast.AbstractLocatable;
+import visitor.Visitor;
 
-public class ArrayAccess extends AbstractLocatable implements Expression {
+public class ArrayAccess extends AbstractExpression {
 
     private final Expression left;
     private final Expression right;
@@ -19,6 +20,11 @@ public class ArrayAccess extends AbstractLocatable implements Expression {
 
     public Expression getRight() {
         return this.right;
+    }
+
+    @Override
+    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+        return v.visit(this, param);
     }
 
 }

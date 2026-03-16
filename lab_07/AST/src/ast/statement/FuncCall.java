@@ -1,13 +1,15 @@
 package ast.statement;
 
 import ast.AbstractLocatable;
+import ast.expression.AbstractExpression;
 import ast.expression.Expression;
 import ast.expression.Variable;
+import visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FuncCall extends AbstractLocatable implements Statement, Expression {
+public class FuncCall extends AbstractExpression implements Statement {
 
     private final List<Expression> args;
     private final Variable variable;
@@ -24,6 +26,11 @@ public class FuncCall extends AbstractLocatable implements Statement, Expression
 
     public Variable getVariable() {
         return this.variable;
+    }
+
+    @Override
+    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+        return v.visit(this, param);
     }
 
 }

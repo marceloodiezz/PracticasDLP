@@ -1,6 +1,6 @@
 package errorhandler;
 
-import ast.type.IntType;
+import ast.type.ErrorType;
 
 import java.io.PrintStream;
 import java.util.ArrayList;

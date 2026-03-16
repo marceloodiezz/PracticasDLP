@@ -1,7 +1,8 @@
-package errorhandler;
+package ast.type;
 
 import ast.Locatable;
-import ast.type.Type;
+import errorhandler.ErrorHandler;
+import visitor.Visitor;
 
 public class ErrorType implements Type {
 
@@ -25,5 +26,10 @@ public class ErrorType implements Type {
     @Override
     public String toString() {
         return "Error en fila {" + locatable.getLine() + "} y columna {" + locatable.getColumn() + "}: " + cause;
+    }
+
+    @Override
+    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+        return v.visit(this, param);
     }
 }

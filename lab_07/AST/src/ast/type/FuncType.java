@@ -1,6 +1,7 @@
 package ast.type;
 
 import ast.definition.VarDef;
+import visitor.Visitor;
 
 import java.util.List;
 
@@ -20,5 +21,10 @@ public class FuncType implements Type {
 
     public List<VarDef> getParams() {
         return params;
+    }
+
+    @Override
+    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+        return v.visit(this, param);
     }
 }
