@@ -1,0 +1,8 @@
+// Lvalue required
+
+function f(p:int):void{}
+
+function main(): void{
+	let i:int;	
+	input f(i), 'c';
+}
