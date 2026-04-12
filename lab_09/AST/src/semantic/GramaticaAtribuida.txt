@@ -1,0 +1,99 @@
+A.:
+    { expr.type = Type }
+
+G:
+    // Expresiones
+    (1)  IntLiteral: expr -> INT_LITERAL
+    (2)  CharLiteral: expr -> CHAR_LITERAL
+    (3)  NumberLiteral: expr -> NUMBER_LITERAL
+    (4)  Variable: expr -> ID
+    (5)  ArithmeticOp: expr1 -> expr2 ( + | - | * | / ) expr3
+    (6)  LogicOp: expr1 -> expr2 ( && | || ) expr3
+    (7)  ComparisonOp: expr1 -> expr2 ( > | >= | < | <= | != | == ) expr3
+    (8)  UnaryMinus: expr1 -> expr2
+    (9)  UnaryNot: expr1 -> expr2
+    (10) Cast: expr1 -> type expr2
+    (11) ArrayAccess: expr1 -> expr2 expr3
+    (12) FieldAccess: expr1 -> ID expr2
+    (13) FuncCall: expr1 -> expr2 expr3*
+
+    // Sentencias
+    (14) Return: stmt -> expr
+    (15) Input: stmt -> expr
+    (16) Log: stmt -> expr
+    (17) Assignment: stmt -> expr1 expr2
+    (18) While: stmt1 -> expr stmt2*
+    (19) If-Else: stmt1 -> expr1 stmt2* stmt3*
+
+    // Definiciones
+    (20) VarDef: def -> ID type
+    (21) FuncDef: def -> ID type stmt*
+
+R:
+    // Expresiones
+    (1) // IntLiteral
+        expr.type = IntType.getInstance();
+
+    (2) // CharLiteral
+        expr.type = CharType.getInstance();
+
+    (3) // NumberLiteral
+        expr.type = NumberType.getInstance();
+
+    (4) // Variable
+        expr.type = expr.getDefinition().getType();
+
+    (5) // ArithmeticOp
+        expr1.type = expr2.type.arithmetic(expr3.type, expr1);
+
+    (6) // LogicOp
+        expr1.type = expr2.type.logic(expr3.type, expr1);
+
+    (7) // ComparisonOp
+        expr1.type = expr2.type.comparison(expr3.type, expr1);
+
+    (8) // UnaryMinus
+        expr1.type = expr2.type.arithmetic(expr1);
+
+    (9) // UnaryNot
+        expr1.type = expr2.type.logic(expr1);
+
+    (10) // Cast
+        expr1.type = expr2.type.canBeCastTo(type, expr1);
+
+    (11) // ArrayAccess
+        expr1.type = expr2.type.squareBrackets(expr3.type, expr1);
+
+    (12) // FieldAccess
+        expr1.type = expr2.type.dot(ID, expr1);
+
+    (13) // FuncCall
+        List<Type> argumentsTypes = new ArrayList<>();
+        for(Expression e : expr3*){
+            argumentsTypes.add(e.type);
+        }
+        expr1.type = expr2.type.parenthesis(argumentsTypes, expr1);
+
+    (14) // Return
+        expr.type.mustPromoteTo(type, stmt);
+
+    (15) // Input
+        expr.type.mustBeBuiltIn(stmt);
+
+    (16) // Log
+        expr.type.mustBeBuiltIn(stmt);
+
+    (17) // Assignment
+        expr2.type.mustPromotesTo(expr1.type, stmt);
+
+    (18) // While
+        expr.type.mustBeLogical(stmt1)
+
+    (19) // If-Else
+        expr.type.mustBeLogical(stmt1)
+
+    (20) // VarDef
+        -
+
+    (21) // FuncDef
+        -

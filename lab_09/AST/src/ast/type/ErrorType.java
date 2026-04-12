@@ -4,7 +4,9 @@ import ast.Locatable;
 import errorhandler.ErrorHandler;
 import visitor.Visitor;
 
-public class ErrorType implements Type {
+import java.util.List;
+
+public class ErrorType extends AbstractType {
 
     private String cause;
     private Locatable locatable;
@@ -29,7 +31,67 @@ public class ErrorType implements Type {
     }
 
     @Override
-    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+    public <RT, PT> RT accept(Visitor<RT, PT> v, PT param) {
         return v.visit(this, param);
+    }
+
+    @Override
+    public Type arithmetic(Type other, Locatable l) {
+        return this;
+    }
+
+    @Override
+    public Type logic(Type other, Locatable l) {
+        return this;
+    }
+
+    @Override
+    public Type comparison(Type other, Locatable l) {
+        return this;
+    }
+
+    @Override
+    public Type arithmetic(Locatable l) {
+        return this;
+    }
+
+    @Override
+    public Type logic(Locatable l) {
+        return this;
+    }
+
+    @Override
+    public Type canBeCastTo(Type other, Locatable l) {
+        return this;
+    }
+
+    @Override
+    public Type squareBrackets(Type other, Locatable l) {
+        return this;
+    }
+
+    @Override
+    public Type dot(String fieldName, Locatable l) {
+        return this;
+    }
+
+    @Override
+    public Type parenthesis(List<Type> types, Locatable l) {
+        return this;
+    }
+
+    @Override
+    public void mustBeLogical(Locatable l) {
+        // NO SE HACE NADA
+    }
+
+    @Override
+    public void mustPromotesTo(Type t, Locatable l) {
+        // NO SE HACE NADA
+    }
+
+    @Override
+    public void mustBeBuiltIn(Locatable l) {
+        // NO SE HACE NADA
     }
 }

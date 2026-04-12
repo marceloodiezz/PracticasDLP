@@ -1,5 +1,7 @@
 package ast.expression;
 
+import ast.Locatable;
+import ast.type.Type;
 import visitor.Visitor;
 
 public class FieldAccess extends AbstractExpression {
@@ -22,7 +24,7 @@ public class FieldAccess extends AbstractExpression {
     }
 
     @Override
-    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+    public <RT, PT> RT accept(Visitor<RT, PT> v, PT param) {
         return v.visit(this, param);
     }
 

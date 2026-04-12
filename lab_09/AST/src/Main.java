@@ -1,3 +1,4 @@
+import ast.type.Type;
 import org.antlr.v4.runtime.*;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorView;
@@ -33,6 +34,9 @@ public class Main {
 
 		Visitor<Void, Void> identificationVisitor = new IdentificationVisitor();
 		ast.accept(identificationVisitor, null);
+
+		Visitor<Void, Type> typeCheckingVisitor = new TypeCheckingVisitor();
+		ast.accept(typeCheckingVisitor, null);
 
 		// * Check errors
 		if(ErrorHandler.getInstance().anyError()){

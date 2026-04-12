@@ -21,7 +21,7 @@ public class FuncDef extends AbstractDefinition {
     }
 
     @Override
-    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+    public <RT, PT> RT accept(Visitor<RT, PT> v, PT param) {
         return v.visit(this, param);
     }
 }

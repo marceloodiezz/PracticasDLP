@@ -6,7 +6,7 @@ import ast.program.Program;
 import ast.statement.*;
 import ast.type.*;
 
-public interface Visitor<PT, RT> {
+public interface Visitor<RT, PT> {
 
     // Definiciones
     RT visit(FuncDef funcDef, PT param);

@@ -6,7 +6,7 @@ import ast.program.Program;
 import ast.statement.*;
 import ast.type.*;
 
-public abstract class AbstractVisitor<PT, RT> implements Visitor<PT, RT> {
+public abstract class AbstractVisitor<RT, PT> implements Visitor<RT, PT> {
 
     // ---------------------------------------------------
     // Definiciones
@@ -170,7 +170,7 @@ public abstract class AbstractVisitor<PT, RT> implements Visitor<PT, RT> {
 
     @Override
     public RT visit(ArrayType arrayType, PT param) {
-        arrayType.getElementType().accept(this, param);
+        arrayType.getOf().accept(this, param);
         return null;
     }
 

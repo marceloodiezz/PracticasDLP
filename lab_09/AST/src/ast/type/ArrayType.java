@@ -1,28 +1,41 @@
 package ast.type;
 
+import ast.Locatable;
 import visitor.Visitor;
 
-public class ArrayType implements Type {
+public class ArrayType extends AbstractType {
 
     private final int size;
-    private final Type elementType;
+    private final Type of;
 
     public ArrayType(int size, Type elementType) {
         this.size = size;
-        this.elementType = elementType;
+        this.of = elementType;
     }
 
     public int getSize() {
         return this.size;
     }
 
-    public Type getElementType() {
-        return this.elementType;
+    public Type getOf() {
+        return this.of;
     }
 
     @Override
-    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+    public <RT, PT> RT accept(Visitor<RT, PT> v, PT param) {
         return v.visit(this, param);
+    }
+
+    @Override
+    public Type squareBrackets(Type other, Locatable l) {
+        if(other == IntType.getInstance())
+            return of;
+        return super.squareBrackets(other, l);
+    }
+
+    @Override
+    public String toString() {
+        return "ArrayType";
     }
 
 }
