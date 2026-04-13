@@ -44,4 +44,6 @@ public interface Type extends ASTNode {
     // NO USAR PARA CAST
     void mustBeBuiltIn(Locatable l);
 
+    int numberOfBytes();
+
 }

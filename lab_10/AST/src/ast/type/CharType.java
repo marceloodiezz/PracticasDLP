@@ -70,4 +70,9 @@ public class CharType extends AbstractType {
         return "CharType";
     }
 
+    @Override
+    public int numberOfBytes() {
+        return 1;
+    }
+
 }

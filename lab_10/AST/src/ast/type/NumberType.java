@@ -61,4 +61,9 @@ public class NumberType extends AbstractType {
         return "NumberType";
     }
 
+    @Override
+    public int numberOfBytes() {
+        return 4;
+    }
+
 }

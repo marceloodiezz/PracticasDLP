@@ -38,4 +38,9 @@ public class ArrayType extends AbstractType {
         return "ArrayType";
     }
 
+    @Override
+    public int numberOfBytes() {
+        return getSize() * getOf().numberOfBytes();
+    }
+
 }

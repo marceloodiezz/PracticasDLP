@@ -35,4 +35,12 @@ public class RecordType extends AbstractType {
         return "RecordType";
     }
 
+    @Override
+    public int numberOfBytes() {
+        int cont = 0;
+        for(RecordField field : fields)
+            cont += field.getTargetType().numberOfBytes();
+        return cont;
+    }
+
 }
