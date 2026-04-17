@@ -41,6 +41,15 @@ public class FuncType extends AbstractType {
     }
 
     @Override
+    public void mustBeBuiltIn(Locatable l) {
+        if (returnType == VoidType.getInstance()) {
+            // No hace nada
+        }
+        else
+            returnType.mustBeBuiltIn(l);
+    }
+
+    @Override
     public String toString() {
         return "FunctionType";
     }

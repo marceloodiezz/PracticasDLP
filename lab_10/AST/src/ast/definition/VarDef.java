@@ -6,6 +6,8 @@ import visitor.Visitor;
 
 public class VarDef extends AbstractDefinition implements Statement {
 
+    private int offset;
+
     public VarDef(String name, Type type, int line, int column) {
         super(name, type, line, column);
     }
@@ -17,6 +19,14 @@ public class VarDef extends AbstractDefinition implements Statement {
     @Override
     public <RT, PT> RT accept(Visitor<RT, PT> v, PT param) {
         return v.visit(this, param);
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
 
 }

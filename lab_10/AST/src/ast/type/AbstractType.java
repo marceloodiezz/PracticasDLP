@@ -81,7 +81,7 @@ public abstract class AbstractType implements Type {
 
     @Override
     public void mustBeBuiltIn(Locatable l) {
-        new ErrorType("Se esperaba un tipo primitivo, pero se encontró el tipo '" + this + "'.", l);
+        new ErrorType("Se esperaba un tipo primitivo o void, pero se encontró el tipo '" + this + "'.", l);
     }
 
     @Override

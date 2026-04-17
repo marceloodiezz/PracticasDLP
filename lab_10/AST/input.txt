@@ -1,12 +1,12 @@
 // Global variables
-let i: int;						
-let r: number; 						
-let c: char; 						
+let i: int;         // Offset 0
+let r: number;      // Offset 2
+let c: char;        // Offset 6
 
 // Functions
 function f(pi:int, pr:number): int {	   
-  let lr:number; 						
-  let li:int;							
+  let lr:number;    // Offset -4
+  let li:int;       // Offset -6
   
   li = pi;
   lr = pr;
@@ -15,9 +15,9 @@ function f(pi:int, pr:number): int {
 
 // Main program
 function main(): void{							
-  let pair: [ 	   				
-    let integer:int;						
-    let character:char;	
+  let pair: [       // Offset -3
+    let integer:int;        // Offset 0
+    let character:char;     // Offset 2
   ];
 	
   i = 3;

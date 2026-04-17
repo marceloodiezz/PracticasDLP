@@ -1,4 +1,5 @@
 import ast.type.Type;
+import codeGeneration.OffsetVisitor;
 import org.antlr.v4.runtime.*;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorView;
@@ -37,6 +38,9 @@ public class Main {
 
 		Visitor<Void, Type> typeCheckingVisitor = new TypeCheckingVisitor();
 		ast.accept(typeCheckingVisitor, null);
+
+		Visitor<Void, Boolean> offsetVisitor = new OffsetVisitor();
+		ast.accept(offsetVisitor, null);
 
 		// * Check errors
 		if(ErrorHandler.getInstance().anyError()){
