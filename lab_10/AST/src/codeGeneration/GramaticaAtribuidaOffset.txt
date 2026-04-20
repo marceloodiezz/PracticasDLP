@@ -1,0 +1,27 @@
+A.:
+    { varDef.offset = int, recordField.offset = int }
+
+G:
+    (1) VarDef: definition -> ID type
+    (2) FuncDef: definition -> ID type stmt*
+    (3) FuncType: type -> type param*
+    (4) RecordType: type -> recordField*
+    (5) RecordField: recordField -> ID type
+
+R:
+    (1) // VarDef
+        if (!VarDef.isLocal)
+            VarDef.offset = VarDef.nextGlobal;
+        else
+            VarDef.offset = -(VarDef.nextLocal + VarDef.type.numberOfBytes());
+
+    (2) // FuncDef
+
+
+    (3) // FuncType
+
+
+    (4) // RecordType
+
+
+    (5) // RecordField
