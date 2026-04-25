@@ -1,7 +1,7 @@
 
-import codegen.CodeGenerator;
-import codegen.ExecuteCGVisitor;
-import codegen.OffsetVisitor;
+import codeGeneration.CodeGenerator;
+import codeGeneration.ExecuteCGVisitor;
+import codeGeneration.OffsetVisitor;
 import org.antlr.v4.runtime.*;
 
 import ast.ASTNode;

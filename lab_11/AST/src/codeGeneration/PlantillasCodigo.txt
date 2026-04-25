@@ -1,0 +1,112 @@
+// ---------------------------------------
+// EXECUTE
+
+// Program
+execute[[ Program: program -> def* ]]() =
+    for(Definition d : def*)
+        if (d instanceof VarDef)
+            execute[[d]]()
+    cg.mainInvocation() // <call main> y <halt>
+    for(Definition d : def*)
+        if (d instanceof FuncDef)
+            execute[[d]]()
+
+// FuncDef
+execute[[ FuncDef: definition -> ID type stmt* ]]() =
+    ID <:>
+    for (VarDef vd : type.getParams())
+        execute[[vd]]
+    // Comentarios de los parámetros y las variables globales
+    <enter> definition.bytesGlobalSum
+    for (Statement stmt : stmt*)
+        execute[[stmt]]
+    <ret> 0, definition.bytesGlobalSum, 0 // Esto se hace solo ahora q la única función en main. Más adelante se mejorará
+
+// VarDef
+execute [[ VarDef: definition -> ID type ]]() =
+    ' * type.toString() ID (offset definition.offset())
+
+// Assignment
+execute[[ Assignment: stmt -> expr1 expr2 ]]() =
+    address[[expr1]]()
+    value[[expr2]]()
+    cg.convertTo(expr2.type, expr1.type)
+    <store> expr1.type.suffix()
+
+// Input
+execute[[ Input: stmt -> expr ]]() =
+    address[[expr]]()
+    <in> expr.type.suffix()
+    <store> expr.type.suffix()
+
+// Log
+execute [[ Log: stmt -> expr ]]() =
+    value[[expr]]()
+    <out> expr.type.suffix()
+
+// ---------------------------------------
+// ADDRESS
+
+// Variable
+address[[ Variable: expr -> ID ]]() =
+    if (expr.def.scope == 0)
+        <pusha> expr.def.offset
+    else {
+        <push bp>
+        <pushi> expr.def.offset
+        <addi>
+    }
+
+// ArrayAccess
+address[[ ArrayAccess: expr1 -> expr2 expr3 ]]() =
+    address[[expr2]]()
+    value[[expr3]]()
+    cg.convertTo(expr3.type, IntType)
+    <pushi> expr1.type.numberOfBytes()
+    <muli>
+    <addi>
+
+// FieldAccess
+address[[ FieldAccess: expr1 -> expr2 ID ]]()
+    address[[expr2]]()
+    <pushi> expr2.type.field(ID).offset
+    <addi>
+
+
+// ---------------------------------------
+// VALUE
+
+// Variable
+value[[ Variable: expr -> ID ]]() =
+    address[[expr]]()
+    <load> expr.type.suffix()
+
+// ArrayAccess
+value[[ ArrayAccess: expr1 -> expr2 expr3 ]]() =
+    address[[expr1]]()
+    <load> expr1.type.suffix()
+
+// FieldAccess
+value[[ FieldAccess: expr1 -> expr2 ID ]]() =
+    address[[expr1]]()
+    <load> expr1.type.suffix()
+
+// IntLiteral
+value[[ IntLiteral: expr -> INT_CONST ]]() =
+    <pushi> expr.value
+
+// CharLiteral
+value[[ CharLiteral: expr -> CHAR_CONST ]]() =
+    <pushb> expr.value
+
+// NumberLiteral
+value[[ NumberLiteral: expr -> REAL_CONST ]]() =
+    <pushf> expr.value
+
+// Cast
+value[[ Cast: expr1 -> expr2 type ]]() =
+    value[[expr2]]()
+    cg.convertTo(expr2.type, type)
+
+// ArithmeticOp
+value[[ ArithmeticOp: expr1 -> expr2 OP expr3 ]]() =
