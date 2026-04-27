@@ -14,17 +14,31 @@ execute[[ Program: program -> def* ]]() =
 // FuncDef
 execute[[ FuncDef: definition -> ID type stmt* ]]() =
     ID <:>
+    <' * Parametros: >
     for (VarDef vd : type.getParams())
-        execute[[vd]]
-    // Comentarios de los parámetros y las variables globales
-    <enter> definition.bytesGlobalSum
+        execute[[vd]]()
+    <' * Variables Locales: >
     for (Statement stmt : stmt*)
-        execute[[stmt]]
-    <ret> 0, definition.bytesGlobalSum, 0 // Esto se hace solo ahora q la única función en main. Más adelante se mejorará
+        if (stmt instanceof VarDef) {
+            definitions*.add(stmt)
+            execute[[stmt]]()
+        }
+    if (definitions*.isEmpty())
+        definition.bytesLocalSum = 0;
+    else {
+        VarDef ultimaVarDef = definitions*.get(definitions.size() - 1)
+        definition.bytesLocalSum = -1 * ultimaVarDef.offset
+    }
+    <enter> definition.bytesLocalSum
+    for (Statement stmt : stmt*) {
+        if (!(stmt instanceof VarDef))
+            execute[[stmt]]()
+    }
+    <ret> 0, definition.bytesLocalSum, 0 // Esto se hace solo ahora q la única función en main. Más adelante se mejorará
 
 // VarDef
 execute [[ VarDef: definition -> ID type ]]() =
-    ' * type.toString() ID (offset definition.offset())
+    <' *> type.toString() ID <(offset> definition.offset() <)>
 
 // Assignment
 execute[[ Assignment: stmt -> expr1 expr2 ]]() =
@@ -35,12 +49,16 @@ execute[[ Assignment: stmt -> expr1 expr2 ]]() =
 
 // Input
 execute[[ Input: stmt -> expr ]]() =
+    <#line> expr.line
+    <' * Read>
     address[[expr]]()
     <in> expr.type.suffix()
     <store> expr.type.suffix()
 
 // Log
 execute [[ Log: stmt -> expr ]]() =
+    <#line> expr.line
+    <' * Write>
     value[[expr]]()
     <out> expr.type.suffix()
 
@@ -49,10 +67,12 @@ execute [[ Log: stmt -> expr ]]() =
 
 // Variable
 address[[ Variable: expr -> ID ]]() =
+    // Variables Globales
     if (expr.def.scope == 0)
         <pusha> expr.def.offset
+    // Variables Locales y Parámetros
     else {
-        <push bp>
+        <pusha bp>
         <pushi> expr.def.offset
         <addi>
     }
@@ -110,3 +130,31 @@ value[[ Cast: expr1 -> expr2 type ]]() =
 
 // ArithmeticOp
 value[[ ArithmeticOp: expr1 -> expr2 OP expr3 ]]() =
+    value[[expr2]]()
+    cg.convertTo(expr2.type, expr1.type)
+    value[[expr3]]()
+    cg.convertTo(expr3.type, expr1.type)
+    cg.arithmetic(expr1.operator, expr1.type)
+
+// LogicOp
+value[[ LogicOp: expr1 -> expr2 OP expr3 ]]() =
+    value[[expr2]]()
+    cg.convertTo(expr2.type, IntType)
+    value[[expr3]]()
+    cg.convertTo(expr3.type, IntType)
+    cg.logic(expr1.operator, expr1.type)
+
+// ComparisonOp
+value[[ ComparisonOp: expr1 -> expr2 OP expr3 ]]() =
+    T = cg.comparisonType(expr2.type, expr3.type)
+    value[[expr2]]()
+    cg.convertTo(expr2.type, T)
+    value[[expr3]]()
+    cg.convertTo(expr3.type, T)
+    cg.comparison(expr1.operator, T)
+
+// FuncCall
+value[[ FuncCall: expr1 -> expr2* expr3 ]]() =
+    for (Expression expr: expr2*)
+        value[[expr]]()
+    <call> (expr2.name)

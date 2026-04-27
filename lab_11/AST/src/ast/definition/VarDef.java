@@ -16,17 +16,17 @@ public class VarDef extends AbstractDefinition implements Statement {
         super(name, type, line, column);
     }
 
-    @Override
-    public <RT, PT> RT accept(Visitor<RT, PT> v, PT param) {
-        return v.visit(this, param);
-    }
-
     public int getOffset() {
         return offset;
     }
 
     public void setOffset(int offset) {
         this.offset = offset;
+    }
+
+    @Override
+    public <RT, PT> RT accept(Visitor<RT, PT> v, PT param) {
+        return v.visit(this, param);
     }
 
 }

@@ -17,6 +17,13 @@ public class RecordType extends AbstractType {
         return this.fields;
     }
 
+    public RecordField getField(String id) {
+        for(RecordField f : fields)
+            if(f.getName().equals(id))
+                return f;
+        return null;
+    }
+
     @Override
     public <RT, PT> RT accept(Visitor<RT, PT> v, PT param) {
         return v.visit(this, param);

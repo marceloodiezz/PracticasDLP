@@ -10,6 +10,7 @@ import java.util.List;
 public class FuncDef extends AbstractDefinition {
 
     private final List<Statement> body;
+    private int bytesLocalSum;
 
     public FuncDef(String name, Type type, List<Statement> body, int line, int column) {
         super(name, type, line, column);
@@ -18,6 +19,14 @@ public class FuncDef extends AbstractDefinition {
 
     public List<Statement> getBody() {
         return body;
+    }
+
+    public void setBytesLocalSum(int bytesLocalSum) {
+        this.bytesLocalSum = bytesLocalSum;
+    }
+
+    public int getBytesLocalSum() {
+        return bytesLocalSum;
     }
 
     @Override

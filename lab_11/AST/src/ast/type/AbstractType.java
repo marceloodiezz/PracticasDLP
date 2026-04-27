@@ -84,10 +84,17 @@ public abstract class AbstractType implements Type {
         new ErrorType("Se esperaba un tipo primitivo o void, pero se encontró el tipo '" + this + "'.", l);
     }
 
+
+
     @Override
     public int numberOfBytes() {
         // Lanzar RuntimeException ya que una VarDef no puede ser de tipo VoidType, FunctType o ErrorType
         throw new UnsupportedOperationException("Una definición de variable no puede ser de tipo '" + this + "'");
+    }
+
+    @Override
+    public char suffix() {
+        return '\0';
     }
 
 }
